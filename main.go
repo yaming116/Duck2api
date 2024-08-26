@@ -21,16 +21,6 @@ var staticFiles embed.FS
 func main() {
 	_ = godotenv.Load(".env")
 	gin.SetMode(gin.ReleaseMode)
-	router := initialize.RegisterRouter()
-	subFS, err := fs.Sub(staticFiles, "web")
-	if err != nil {
-		log.Fatal(err)
-	}
-	router.StaticFS("/web", http.FS(subFS))
-	host := os.Getenv("SERVER_HOST")
-	port := os.Getenv("SERVER_PORT")
-	tlsCert := os.Getenv("TLS_CERT")
-	tlsKey := os.Getenv("TLS_KEY")
 
 	viper.SetConfigFile("/data/options.json")
 	viper.SetConfigType("json")
@@ -50,6 +40,17 @@ func main() {
 	if auth != "" {
 		os.Setenv("Authorization", auth)
 	}
+
+	router := initialize.RegisterRouter()
+	subFS, err := fs.Sub(staticFiles, "web")
+	if err != nil {
+		log.Fatal(err)
+	}
+	router.StaticFS("/web", http.FS(subFS))
+	host := os.Getenv("SERVER_HOST")
+	port := os.Getenv("SERVER_PORT")
+	tlsCert := os.Getenv("TLS_CERT")
+	tlsKey := os.Getenv("TLS_KEY")
 
 	if host == "" {
 		host = "0.0.0.0"
