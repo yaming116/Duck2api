@@ -24,7 +24,7 @@ jobs:
           image: yaming116/gptapi
           labels: |-
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-          tags: zipformer-${{ steps.t1.outputs.year }}-${{ steps.t1.outputs.month }}-${{ steps.t1.outputs.day }}
+          tags: latest, ${{ steps.t1.outputs.year }}-${{ steps.t1.outputs.month }}-${{ steps.t1.outputs.day }}
           registry: docker.io
           dockerfile: Dockerfile
           multiPlatform: true
